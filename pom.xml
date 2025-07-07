@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.mariovyord</groupId>
-	<artifactId>imdb-lite</artifactId>
+	<artifactId>mdb-lite</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>imdb-lite</name>
+	<name>mdb-lite</name>
 	<description>Lightweight Movie Data API</description>
 	<url/>
 	<licenses>
@@ -28,6 +28,7 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
+		<openapi-generator-maven-plugin.version>7.9.0</openapi-generator-maven-plugin.version>
 	</properties>
 	<dependencies>
 
@@ -70,6 +71,11 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.openapitools</groupId>
+			<artifactId>openapi-generator-maven-plugin</artifactId>
+			<version>7.14.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -78,7 +84,39 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<!-- Generate ServerAPI from MDB Lite OPENAPI-SPEC -->
+			<plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>${openapi-generator-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>generate</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/openapi/mdb-lite-spec.yml</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <configOptions>
+                                <sourceFolder>src/gen/java/main</sourceFolder>
+                                <apiPackage>de.dlh.lht.ti.api</apiPackage>
+                                <modelPackage>de.dlh.lht.ti.model</modelPackage>
+                                <serializableModel>true</serializableModel>
+                                <interfaceOnly>true</interfaceOnly>
+                                <returnResponse>false</returnResponse>
+                                <openApiNullable>false</openApiNullable>
+                                <useSpringBoot3>true</useSpringBoot3>
+                                <useTags>true</useTags>
+                            </configOptions>
+                            <typeMappings>
+                                <typeMapping>Double=java.math.BigDecimal</typeMapping>
+                            </typeMappings>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
-
 </project>

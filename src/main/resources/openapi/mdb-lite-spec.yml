@@ -1,0 +1,205 @@
+openapi: 3.0.1
+info:
+  title: MDB Lite API Specification
+  description: MDB Lite | API Connection Specification
+  version: 0.0.1
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+security:
+  - BEARER_JWT: [ ]
+paths:
+  /movies:
+    get:
+      tags:
+        - Movies
+      description: Find all movies.
+      operationId: getMovies
+      parameters:
+        - name: movieQueryParams
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/MovieQueryParams'
+          style: form
+          explode: true
+        - name: pagingCriteria
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/MoviePagingCriteria'
+          style: form
+          explode: true
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MoviePageDto'
+        "500":
+          $ref: '#/components/responses/InternalError'
+      deprecated: false
+
+components:
+  schemas:
+    #----------------- Pagination Wrapper Schemas -----------------
+    PaginationResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items: { }
+        totalElements:
+          type: integer
+          format: int64
+          default: 0
+        totalPages:
+          type: integer
+          default: 0
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
+          type: integer
+        numberOfElements:
+          type: integer
+        size:
+          type: integer
+        empty:
+          type: boolean
+        sort:
+          $ref: "#/components/schemas/Sort"
+    Sort:
+      type: object
+      properties:
+        isSorted:
+          type: boolean
+        sortField:
+          type: string
+        sortDirection:
+          type: string
+          enum:
+            - ASC
+            - DESC
+
+    MoviePagingCriteria:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PaginationQueryParams'
+        - type: object
+          properties:
+            sortColumn:
+              type: string
+              enum:
+                - NAME
+              default: NAME
+    
+    MovieQueryParams:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the movie to search for
+
+    MoviePageDto:
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/PaginationResponse"
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: "#/components/schemas/MovieDto"
+              default: [ ]
+
+    MovieDto:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+      description: Movie model with all fields directly included.
+  
+    PaginationQueryParams:
+      type: object
+      properties:
+        pageNumber:
+          type: integer
+          default: 0
+        pageSize:
+          type: integer
+          default: 0
+        sortDirection:
+          $ref: '#/components/schemas/SortDirection'
+    SortDirection:
+      type: string
+      enum: [ "ASC", "DESC" ]
+      default: "DESC"
+
+    # --------- Error Responses ---------
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: integer
+        details:
+          type: string
+    BadRequestResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/BadRequestResponse"
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    Timeout:
+      description: Timeout
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+
+  securitySchemes:
+    BEARER_JWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

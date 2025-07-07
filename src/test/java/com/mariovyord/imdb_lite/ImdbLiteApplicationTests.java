@@ -1,10 +1,10 @@
-package com.mariovyord.imdb_lite;
+package com.mariovyord.mdb_lite;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ImdbLiteApplicationTests {
+class MdbLiteApplicationTests {
 
 	@Test
 	void contextLoads() {

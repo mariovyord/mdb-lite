@@ -1,13 +1,13 @@
-package com.mariovyord.imdb_lite;
+package com.mariovyord.mdb_lite;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ImdbLiteApplication {
+public class MdbLiteApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ImdbLiteApplication.class, args);
+		SpringApplication.run(MdbLiteApplication.class, args);
 	}
 
 }

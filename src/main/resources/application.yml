@@ -1,8 +1,8 @@
 spring: 
     application:
-        name: imdb-lite
+        name: mdb-lite
     datasource:
-        url: jdbc:sqlserver://localhost:1433;databaseName=imdb_lite;encrypt=true;trustServerCertificate=true;
+        url: jdbc:sqlserver://localhost:1433;databaseName=mdb_lite;encrypt=true;trustServerCertificate=true;
         username: sa
         password: Password_123#
         driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver

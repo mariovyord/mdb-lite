@@ -39,7 +39,28 @@ paths:
                 $ref: '#/components/schemas/MoviePageDto'
         "500":
           $ref: '#/components/responses/InternalError'
-      deprecated: false
+    post:
+      tags:
+        - Movies
+      description: Create a new movie.
+      operationId: createMovie
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MovieDto'
+      responses:
+        "201":
+          description: Movie created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovieDto'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "500":
+          $ref: '#/components/responses/InternalError'
 
 components:
   schemas:
@@ -93,15 +114,15 @@ components:
             sortColumn:
               type: string
               enum:
-                - NAME
-              default: NAME
+                - TITLE
+              default: TITLE
     
     MovieQueryParams:
       type: object
       properties:
-        name:
+        title:
           type: string
-          description: Name of the movie to search for
+          description: Title of the movie to search for
 
     MoviePageDto:
       type: object
@@ -118,7 +139,7 @@ components:
     MovieDto:
       type: object
       required:
-        - name
+        - title
       properties:
         id:
           type: string

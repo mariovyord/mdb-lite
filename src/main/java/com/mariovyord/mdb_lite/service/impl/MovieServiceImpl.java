@@ -14,9 +14,9 @@ import com.mariovyord.mdb_lite.mapper.MovieMapper;
 import com.mariovyord.mdb_lite.mapper.PageMapper;
 import com.mariovyord.mdb_lite.repository.MovieRepository;
 import com.mariovyord.mdb_lite.service.MovieService;
+import com.mariovyord.mdb_lite.util.MovieSpecificationBuilder;
 import com.mariovyord.mdb_lite.util.PagingUtil;
 
-import de.dlh.lht.ti.model.SortDirection;
 import de.dlh.lht.ti.model.MovieDto;
 import de.dlh.lht.ti.model.MoviePageDto;
 import de.dlh.lht.ti.model.MoviePagingCriteria;
@@ -41,12 +41,9 @@ public class MovieServiceImpl implements MovieService {
             "title" 
         );
 
-        Specification<MovieEntity> spec = (root, query, builder) -> null;
-        String title = movieQueryParams.getTitle();
-        if (title != null && !title.isEmpty()) {
-            spec.and((root, query, cb) -> cb.like(cb.lower(root.get("title")), "%" + title.toLowerCase() + "%"));
-        }
-
+        Specification<MovieEntity> spec = new MovieSpecificationBuilder()
+            .withTitle(movieQueryParams.getTitle())
+            .build();
         
         Page<MovieEntity> page = movieRepository.findAll(spec, pageable);
 

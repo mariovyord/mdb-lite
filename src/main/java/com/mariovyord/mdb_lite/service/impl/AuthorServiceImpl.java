@@ -10,15 +10,19 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.mariovyord.mdb_lite.entity.AuthorEntity;
+import com.mariovyord.mdb_lite.entity.BookEntity;
+import com.mariovyord.mdb_lite.mapper.AuthorMapper;
 import com.mariovyord.mdb_lite.mapper.PageMapper;
 import com.mariovyord.mdb_lite.repository.AuthorRepository;
 import com.mariovyord.mdb_lite.service.AuthorService;
 import com.mariovyord.mdb_lite.util.AuthorSpecificationBuilder;
 import com.mariovyord.mdb_lite.util.PagingUtil;
 
+import de.dlh.lht.ti.model.AuthorDto;
 import de.dlh.lht.ti.model.AuthorPageDto;
 import de.dlh.lht.ti.model.AuthorPagingCriteria;
 import de.dlh.lht.ti.model.AuthorQueryParams;
+import de.dlh.lht.ti.model.BookDto;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -26,6 +30,7 @@ import lombok.AllArgsConstructor;
 public class AuthorServiceImpl implements AuthorService {
     
     private final AuthorRepository authorRepository;
+    private final AuthorMapper authorMapper;
     private final PageMapper pageMapper;
 
     @Override
@@ -45,5 +50,20 @@ public class AuthorServiceImpl implements AuthorService {
         Page<AuthorEntity> page = authorRepository.findAll(spec, pageable);
 
         return pageMapper.toAuthorPage(page);
+    }
+
+    @Override
+    public AuthorDto createAuthor(AuthorDto authorDto) {
+        validateDto(authorDto);
+        AuthorEntity authorEntity = authorMapper.toEntity(authorDto);
+        authorEntity = authorRepository.save(authorEntity);
+        
+        return authorMapper.toDto(authorEntity);
+    }
+
+    private void validateDto(AuthorDto authorDto) {
+        if (authorDto.getFullName() == null || authorDto.getFullName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Full name cannot be empty");
+        }
     }
 }

@@ -23,6 +23,7 @@ import de.dlh.lht.ti.model.BookPageDto;
     nullValueMappingStrategy = NullValueMappingStrategy.RETURN_NULL,
     uses = {
       BookMapper.class,
+      AuthorMapper.class
     }
 )
 public interface PageMapper {

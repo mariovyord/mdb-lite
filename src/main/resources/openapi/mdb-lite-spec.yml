@@ -91,6 +91,28 @@ paths:
                 $ref: '#/components/schemas/AuthorPageDto'
         "500":
           $ref: '#/components/responses/InternalError'
+    post:
+      tags:
+        - Authors
+      description: Create a new author.
+      operationId: createAuthor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthorDto'
+      responses:
+        "201":
+          description: Author created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorDto'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "500":
+          $ref: '#/components/responses/InternalError'
 
 components:
   schemas:
@@ -208,15 +230,16 @@ components:
           type: integer
         message:
           type: string
+
     AuthorDto:
       type: object
       required:
-        - name
+        - fullName
       properties:
         id:
           type: string
           format: uuid
-        name:
+        fullName:
           type: string
       description: Author model with all fields directly included.
 

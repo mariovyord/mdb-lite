@@ -13,6 +13,13 @@ public class BookSpecificationBuilder {
         return this;
     }
 
+    public BookSpecificationBuilder withAuthorFullName(String authorFullName) {
+        if (authorFullName != null && !authorFullName.isEmpty()) {
+            spec = spec.and((root, query, cb) -> cb.like(cb.lower(root.join("authors").get("fullName")), "%" + authorFullName.toLowerCase() + "%"));
+        }
+        return this;
+    }
+
     public Specification<BookEntity> build() {
         return spec;
     }

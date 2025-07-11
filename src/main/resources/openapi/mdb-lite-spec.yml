@@ -278,6 +278,9 @@ components:
         title:
           type: string
           description: Title of the book to search for
+        authorFullName:
+          type: string
+          description: Full name of the author to search for
 
     BookPageDto:
       type: object

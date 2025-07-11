@@ -46,6 +46,7 @@ public class BookServiceImpl implements BookService {
 
         Specification<BookEntity> spec = new BookSpecificationBuilder()
             .withTitle(queryParams.getTitle())
+            .withAuthorFullName(queryParams.getAuthorFullName())
             .build();
         
         Page<BookEntity> page = bookRepository.findAll(spec, pageable);

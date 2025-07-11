@@ -14,6 +14,7 @@ import com.mariovyord.mdb_lite.mapper.MovieMapper;
 import com.mariovyord.mdb_lite.mapper.PageMapper;
 import com.mariovyord.mdb_lite.repository.MovieRepository;
 import com.mariovyord.mdb_lite.service.MovieService;
+import com.mariovyord.mdb_lite.util.PagingUtil;
 
 import de.dlh.lht.ti.model.SortDirection;
 import de.dlh.lht.ti.model.MovieDto;
@@ -32,22 +33,12 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public MoviePageDto getMovies(MovieQueryParams movieQueryParams, MoviePagingCriteria pagingCriteria) {
-        Integer pageNumber = pagingCriteria.getPageNumber() != null ? pagingCriteria.getPageNumber() : 0;
-        Integer pageSize = pagingCriteria.getPageSize() != null && pagingCriteria.getPageSize() > 0 ? pagingCriteria.getPageSize() : 20;
-        SortDirection sortDirection = pagingCriteria.getSortDirection() != null
-            ? pagingCriteria.getSortDirection()
-            : SortDirection.ASC;
-        String sortColumn = pagingCriteria.getSortColumn() != null
-            ? pagingCriteria.getSortColumn().toString().toLowerCase() // or map to correct field name
-            : "title";
-
-        Pageable pageable = PageRequest.of(
-            pageNumber,
-            pageSize,
-            Sort.by(
-                Sort.Direction.fromString(sortDirection.toString()),
-                sortColumn
-            )
+        Pageable pageable = PagingUtil.createPageable(
+            pagingCriteria.getPageNumber(),
+            pagingCriteria.getPageSize(),
+            pagingCriteria.getSortDirection(),
+            pagingCriteria.getSortColumn().getValue().toLowerCase(),
+            "title" 
         );
 
         Specification<MovieEntity> spec = (root, query, builder) -> null;

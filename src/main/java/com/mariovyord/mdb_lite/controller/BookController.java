@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mariovyord.mdb_lite.service.BookService;
 
 import de.dlh.lht.ti.api.BooksApi;
+import de.dlh.lht.ti.model.BookCreateDto;
 import de.dlh.lht.ti.model.BookDto;
 import de.dlh.lht.ti.model.BookPageDto;
 import de.dlh.lht.ti.model.BookPagingCriteria;
@@ -27,7 +28,7 @@ public class  BookController implements BooksApi {
     }
 
     @Override
-    public ResponseEntity<BookDto> createBook(@Valid @RequestBody BookDto bookDto) {
+    public ResponseEntity<BookDto> createBook(@Valid @RequestBody BookCreateDto bookDto) {
         BookDto createdBook = bookService.createBook(bookDto);
         return ResponseEntity.status(201).body(createdBook);
     }

@@ -49,7 +49,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BookDto'
+              $ref: '#/components/schemas/BookCreateDto'
       responses:
         "201":
           description: Book created successfully.
@@ -185,18 +185,43 @@ components:
                 $ref: "#/components/schemas/BookDto"
               default: [ ]
 
-    BookDto:
+    BookBaseDto:
       type: object
       required:
         - title
       properties:
-        id:
-          type: string
-          format: uuid
         title:
           type: string
       description: Book model with all fields directly included.
-  
+
+    BookDto:
+      allOf:
+        - $ref: '#/components/schemas/BookBaseDto'
+        - type: object
+          required:
+            - id
+          properties:
+            id:
+              type: string
+              format: uuid
+            authors:
+              type: array
+              items:
+                $ref: '#/components/schemas/AuthorDto'
+
+    BookCreateDto:
+      allOf:
+        - $ref: '#/components/schemas/BookBaseDto'
+        - type: object
+          required:
+            - authorIds
+          properties:
+            authorIds:
+              type: array
+              items:
+                type: string
+                format: uuid
+
     PaginationQueryParams:
       type: object
       properties:

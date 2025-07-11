@@ -1,12 +1,17 @@
 package com.mariovyord.mdb_lite.mapper;
 
+import java.util.List;
+
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.NullValueMappingStrategy;
 
+import com.mariovyord.mdb_lite.entity.AuthorEntity;
 import com.mariovyord.mdb_lite.entity.BookEntity;
 import com.mariovyord.mdb_lite.util.Constants;
 
+import de.dlh.lht.ti.model.BookCreateDto;
 import de.dlh.lht.ti.model.BookDto;
 
 @Mapper(
@@ -15,5 +20,7 @@ import de.dlh.lht.ti.model.BookDto;
     nullValueMappingStrategy = NullValueMappingStrategy.RETURN_NULL)
 public interface BookMapper {
   BookDto toDto(BookEntity bookEntity);
-  BookEntity toEntity(BookDto bookDto);
+
+  @Mapping(target = "authors", source = "authors")
+  BookEntity toEntity(BookCreateDto bookDto, List<AuthorEntity> authors);
 }

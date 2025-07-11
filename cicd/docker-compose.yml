@@ -1,0 +1,28 @@
+name: mdb-lite
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mssql
+    environment:
+      MSSQL_PID: "Developer"
+      MSSQL_USER: "sa"
+      MSSQL_SA_PASSWORD: "Password_123#"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - mssql-data:/var/opt/mssql
+    ports:
+      - "1433:1433"
+  keycloak:
+    container_name: keycloak
+    image: quay.io/keycloak/keycloak:latest
+    volumes:
+      - ./keycloak:/opt/keycloak/data/import
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    ports:
+      - "8180:8080"
+    command: start-dev --http-relative-path=/auth --import-realm
+
+volumes:
+  mssql-data:

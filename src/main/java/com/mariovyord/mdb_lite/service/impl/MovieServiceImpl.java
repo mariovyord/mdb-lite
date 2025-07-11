@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.mariovyord.mdb_lite.entity.MovieEntity;
 import com.mariovyord.mdb_lite.mapper.MovieMapper;
+import com.mariovyord.mdb_lite.mapper.PageMapper;
 import com.mariovyord.mdb_lite.repository.MovieRepository;
 import com.mariovyord.mdb_lite.service.MovieService;
 
@@ -27,6 +28,7 @@ public class MovieServiceImpl implements MovieService {
     
     private final MovieRepository movieRepository;
     private final MovieMapper movieMapper;
+    private final PageMapper pageMapper;
 
     @Override
     public MoviePageDto getMovies(MovieQueryParams movieQueryParams, MoviePagingCriteria pagingCriteria) {
@@ -57,25 +59,7 @@ public class MovieServiceImpl implements MovieService {
         
         Page<MovieEntity> page = movieRepository.findAll(spec, pageable);
 
-        MoviePageDto pageDto = new MoviePageDto();
-        pageDto.setContent(page.getContent().stream().map(movieMapper::toDto).toList());
-        pageDto.setEmpty(page.getContent().isEmpty());
-        pageDto.setTotalElements(page.getTotalElements());
-        pageDto.setTotalPages(page.getTotalPages());
-        pageDto.setFirst(page.isFirst());
-        pageDto.setLast(page.isLast());
-        pageDto.setNumber(page.getNumber());
-        pageDto.setNumberOfElements(page.getNumberOfElements());
-        pageDto.setSize(page.getSize());
-
-        de.dlh.lht.ti.model.Sort sortDto = new de.dlh.lht.ti.model.Sort();
-        sortDto.setIsSorted(true);
-        sortDto.setSortDirection(sortDirection);
-        sortDto.setSortField(sortColumn);
-
-        pageDto.setSort(sortDto);
-
-        return pageDto;
+        return pageMapper.toMoviePage(page);
     }
 
     @Override

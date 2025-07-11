@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "MdbLiteApplication",
+            "request": "launch",
+            "mainClass": "com.mariovyord.mdb_lite.MdbLiteApplication",
+            "projectName": "mdb-lite"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ImdbLiteApplication<imdb-lite>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.mariovyord.imdb_lite.ImdbLiteApplication",
+            "projectName": "imdb-lite",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

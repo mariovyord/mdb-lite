@@ -66,6 +66,20 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public BookDto updateBook(UUID bookId, BookCreateDto bookDto) {
+        validateDto(bookDto);
+
+        BookEntity existingBook = bookRepository.findById(bookId)
+            .orElseThrow(() -> new IllegalArgumentException("Book not found with id: " + bookId));
+
+        existingBook.setTitle(bookDto.getTitle());
+        existingBook.setAuthors(getAuthorsFromDto(bookDto));
+        existingBook = bookRepository.save(existingBook);
+        
+        return bookMapper.toDto(existingBook);
+    }
+
+    @Override
     public void deleteBook(UUID bookId) {
         if (!bookRepository.existsById(bookId)) {
             throw new IllegalArgumentException("Book not found with id: " + bookId);

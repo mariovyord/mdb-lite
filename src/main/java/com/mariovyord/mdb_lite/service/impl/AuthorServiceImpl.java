@@ -58,6 +58,20 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
+    public AuthorDto updateAuthor(UUID authorId, AuthorDto authorDto) {
+        validateDto(authorDto);
+
+        AuthorEntity authorEntity = authorRepository.findById(authorId)
+            .orElseThrow(() -> new IllegalArgumentException("Author not found with id: " + authorId));
+
+        authorEntity.setFullName(authorDto.getFullName());
+
+        authorEntity = authorRepository.save(authorEntity); 
+        
+        return authorMapper.toDto(authorEntity);
+    }
+
+    @Override
     public void deleteAuthor(UUID authorId) {
         if (!authorRepository.existsById(authorId)) {
             throw new IllegalArgumentException("Author not found with id: " + authorId);

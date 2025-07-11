@@ -1,6 +1,6 @@
 package com.mariovyord.mdb_lite.entity;
 
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
@@ -40,5 +40,5 @@ public class BookEntity {
         joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id")
     )
-    private Set<AuthorEntity> authors;
+    private List<AuthorEntity> authors;
 }

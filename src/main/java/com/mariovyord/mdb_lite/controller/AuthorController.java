@@ -36,6 +36,12 @@ public class  AuthorController implements AuthorsApi {
     }
 
     @Override
+    public ResponseEntity<AuthorDto> updateAuthor(@PathVariable("id") UUID authorId, @Valid @RequestBody AuthorDto authorDto) {
+        AuthorDto updatedAuthor = authorService.updateAuthor(authorId, authorDto);
+        return ResponseEntity.ok(updatedAuthor);
+    }
+
+    @Override
     public ResponseEntity<Void> deleteAuthor(@PathVariable("id") UUID authorId) {
         authorService.deleteAuthor(authorId);
         return ResponseEntity.noContent().build();

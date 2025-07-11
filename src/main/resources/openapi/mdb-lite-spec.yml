@@ -83,6 +83,37 @@ paths:
           $ref: '#/components/responses/NotFound'
         "500":
           $ref: '#/components/responses/InternalError'
+    put:
+      tags:
+        - Books
+      description: Update a book by ID.
+      operationId: updateBook
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookCreateDto'
+      responses:
+        "200":
+          description: Book updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookDto'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "404":
+          $ref: '#/components/responses/NotFound'
+        "500":
+          $ref: '#/components/responses/InternalError'
   /authors:
     get:
       tags:
@@ -151,6 +182,37 @@ paths:
       responses:
         "204":
           description: Author deleted successfully.
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "404":
+          $ref: '#/components/responses/NotFound'
+        "500":
+          $ref: '#/components/responses/InternalError'
+    put:
+      tags:
+        - Authors
+      description: Update an author by ID.
+      operationId: updateAuthor
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthorDto'
+      responses:
+        "200":
+          description: Author updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorDto'
         "400":
           $ref: '#/components/responses/BadRequest'
         "404":

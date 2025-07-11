@@ -10,5 +10,6 @@ import de.dlh.lht.ti.model.AuthorQueryParams;
 public interface AuthorService {
     AuthorPageDto getAuthors(AuthorQueryParams queryParams, AuthorPagingCriteria pagingCriteria);
     AuthorDto createAuthor(AuthorDto authorDto);
+    AuthorDto updateAuthor(UUID authorId, AuthorDto authorDto);
     void deleteAuthor(UUID authorId);
 }

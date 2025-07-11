@@ -11,5 +11,6 @@ import de.dlh.lht.ti.model.BookQueryParams;
 public interface BookService {
     BookPageDto getBooks(BookQueryParams queryParams, BookPagingCriteria pagingCriteria);
     BookDto createBook(BookCreateDto bookDto);
+    BookDto updateBook(UUID bookId, BookCreateDto bookDto);
     void deleteBook(UUID bookId);
 }

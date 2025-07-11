@@ -4,5 +4,5 @@
 [x] Add POST Movie
 [ ] Add Error Handling & RestExceptionHandler
 [ ] Add Keycloak
-[ ] Add GET Actors
-[ ] Add POST Actor
+[ ] Add GET Directors
+[ ] Add POST Director

@@ -100,11 +100,8 @@ components:
         sortField:
           type: string
         sortDirection:
-          type: string
-          enum:
-            - ASC
-            - DESC
-
+          $ref: '#/components/schemas/SortDirection'
+          
     MoviePagingCriteria:
       type: object
       allOf:

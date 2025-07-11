@@ -13,13 +13,6 @@ public class BookSpecificationBuilder {
         return this;
     }
 
-    public BookSpecificationBuilder withAuthor(String author) {
-        if (author != null && !author.isEmpty()) {
-            spec = spec.and((root, query, cb) -> cb.like(cb.lower(root.get("author")), "%" + author.toLowerCase() + "%"));
-        }
-        return this;
-    }
-
     public Specification<BookEntity> build() {
         return spec;
     }

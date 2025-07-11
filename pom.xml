@@ -12,7 +12,7 @@
 	<artifactId>mdb-lite</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>mdb-lite</name>
-	<description>Lightweight Movie Data API</description>
+	<description>Lightweight Books Data API</description>
 	<url/>
 	<licenses>
 		<license/>

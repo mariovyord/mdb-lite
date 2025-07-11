@@ -8,19 +8,19 @@ import org.mapstruct.NullValueMappingStrategy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.mariovyord.mdb_lite.entity.MovieEntity;
+import com.mariovyord.mdb_lite.entity.BookEntity;
 import com.mariovyord.mdb_lite.util.Constants;
 
 import de.dlh.lht.ti.model.Sort;
 import de.dlh.lht.ti.model.SortDirection;
-import de.dlh.lht.ti.model.MoviePageDto;
+import de.dlh.lht.ti.model.BookPageDto;
 
 @Mapper(
     componentModel = Constants.SPRING_MAPPING_MODEL,
     injectionStrategy = InjectionStrategy.CONSTRUCTOR,
     nullValueMappingStrategy = NullValueMappingStrategy.RETURN_NULL,
     uses = {
-      MovieMapper.class,
+      BookMapper.class,
     }
 )
 public interface PageMapper {
@@ -34,7 +34,7 @@ public interface PageMapper {
     @Mapping(target = "empty", source = "page.empty")
     @Mapping(target = "content", source = "page.content")
     @Mapping(target = "sort", source = "page.pageable", qualifiedByName = "mapSort")
-    MoviePageDto toMoviePage(Page<MovieEntity> page);
+    BookPageDto toBookPage(Page<BookEntity> page);
 
     @Named("mapSort")
     default Sort mapSort(Pageable pageable) {

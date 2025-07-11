@@ -1,16 +1,13 @@
 package com.mariovyord.mdb_lite.service.impl;
 
-import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.mariovyord.mdb_lite.entity.AuthorEntity;
-import com.mariovyord.mdb_lite.entity.BookEntity;
 import com.mariovyord.mdb_lite.mapper.AuthorMapper;
 import com.mariovyord.mdb_lite.mapper.PageMapper;
 import com.mariovyord.mdb_lite.repository.AuthorRepository;
@@ -22,7 +19,6 @@ import de.dlh.lht.ti.model.AuthorDto;
 import de.dlh.lht.ti.model.AuthorPageDto;
 import de.dlh.lht.ti.model.AuthorPagingCriteria;
 import de.dlh.lht.ti.model.AuthorQueryParams;
-import de.dlh.lht.ti.model.BookDto;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -60,6 +56,14 @@ public class AuthorServiceImpl implements AuthorService {
         
         return authorMapper.toDto(authorEntity);
     }
+
+    @Override
+    public void deleteAuthor(UUID authorId) {
+        if (!authorRepository.existsById(authorId)) {
+            throw new IllegalArgumentException("Author not found with id: " + authorId);
+        }
+        authorRepository.deleteById(authorId);
+    }   
 
     private void validateDto(AuthorDto authorDto) {
         if (authorDto.getFullName() == null || authorDto.getFullName().trim().isEmpty()) {

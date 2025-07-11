@@ -4,10 +4,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.mariovyord.mdb_lite.entity.AuthorEntity;
@@ -66,6 +64,15 @@ public class BookServiceImpl implements BookService {
         
         return bookMapper.toDto(bookEntity);
     }
+
+    @Override
+    public void deleteBook(UUID bookId) {
+        if (!bookRepository.existsById(bookId)) {
+            throw new IllegalArgumentException("Book not found with id: " + bookId);
+        }
+        bookRepository.deleteById(bookId);
+    }
+
 
     private void validateDto(BookCreateDto bookDto) {
         if (bookDto.getTitle() == null || bookDto.getTitle().trim().isEmpty()) {

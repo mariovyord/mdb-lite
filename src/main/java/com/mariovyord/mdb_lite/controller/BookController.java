@@ -1,6 +1,9 @@
 package com.mariovyord.mdb_lite.controller;
 
+import java.util.UUID;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mariovyord.mdb_lite.service.BookService;
@@ -31,5 +34,11 @@ public class  BookController implements BooksApi {
     public ResponseEntity<BookDto> createBook(@Valid @RequestBody BookCreateDto bookDto) {
         BookDto createdBook = bookService.createBook(bookDto);
         return ResponseEntity.status(201).body(createdBook);
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteBook(@PathVariable("id") UUID bookId) {
+        bookService.deleteBook(bookId);
+        return ResponseEntity.noContent().build();
     }
 }

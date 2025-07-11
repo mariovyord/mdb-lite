@@ -61,6 +61,36 @@ paths:
           $ref: '#/components/responses/BadRequest'
         "500":
           $ref: '#/components/responses/InternalError'
+  /authors:
+    get:
+      tags:
+        - Authors
+      description: Find all authors.
+      operationId: getAuthors
+      parameters:
+        - name: authorQueryParams
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/AuthorQueryParams'
+          style: form
+          explode: true
+        - name: pagingCriteria
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/AuthorPagingCriteria'
+          style: form
+          explode: true
+      responses:
+        "200":
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorPageDto'
+        "500":
+          $ref: '#/components/responses/InternalError'
 
 components:
   schemas:
@@ -178,6 +208,49 @@ components:
           type: integer
         message:
           type: string
+    AuthorDto:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+      description: Author model with all fields directly included.
+
+    AuthorQueryParams:
+      type: object
+      properties:
+        fullName:
+          type: string
+          description: Name of the author to search for
+
+    AuthorPagingCriteria:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/PaginationQueryParams'
+        - type: object
+          properties:
+            sortColumnEnum:
+              type: string
+              enum:
+                - fullName
+              default: fullName
+
+    AuthorPageDto:
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/PaginationResponse"
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: "#/components/schemas/AuthorDto"
+              default: [ ]
+
   responses:
     BadRequest:
       description: Bad request

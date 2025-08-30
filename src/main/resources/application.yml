@@ -12,5 +12,8 @@ spring:
         properties:
             hibernate.dialect: org.hibernate.dialect.SQLServerDialect
         show-sql: true
-
-
+    security:
+        oauth2:
+            resourceserver:
+                jwt:
+                    jwk-set-uri: http://localhost:8180/auth/realms/Realm/protocol/openid-connect/certs
